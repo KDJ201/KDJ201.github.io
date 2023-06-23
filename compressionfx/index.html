@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>압박 골절 예측 beta</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        label {
+            margin-bottom: 5px;
+        }
+
+        .form-control {
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        select.form-control {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23333' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") no-repeat;
+            background-position: right 0.7em center;
+            background-size: 8px 10px;
+            padding-right: 1.5em;
+        }
+
+        input[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background-color: #333;
+            color: #fff;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 5px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #555;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 10px;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        input.form-control {
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>압박 골절 예측 beta</h1>
+        <form action="/" method="POST">
+            <div class="form-group">
+                <label for="sex">성별 (남/여):</label>
+                <select id="sex" name="sex" class="form-control">
+                    <option value="M">남</option>
+                    <option value="F">여</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="age">나이:</label>
+                <input type="number" id="age" name="age" min="1" max="150" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="height">키 (cm):</label>
+                <input type="number" id="height" name="height" min="1" max="300" step="0.01" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="weight">몸무게 (kg):</label>
+                <input type="number" id="weight" name="weight" min="1" max="300" step="0.01" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="bone_density_level">골밀도수치:</label>
+                <input type="number" id="bone_density_level" name="bone_density_level" min="-10" max="10" step="0.01" class="form-control"
+                    required>
+            </div>
+
+            <input type="submit" value="제출" class="submit-btn">
+        </form>
+    </div>
+</body>
+
+</html>
