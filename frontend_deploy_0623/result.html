@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>압박 골절 예측 결과</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+        }
+        .container-wrapper {
+            display: flex;
+            justify-content: center; /* start from center */
+            align-items: start; /* keep items at top */
+            flex-wrap: wrap;
+        }
+        .container, .container2, .container3 {
+            max-width: 500px;
+            margin: 30px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+            transition: all 2s ease-in-out;
+            opacity: 0; /* set initial opacity to 0 for all containers */
+        }
+        .container {
+            opacity: 1; /* set initial opacity of first container to 1 */
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        label {
+            margin-bottom: 5px;
+        }
+
+        .form-control {
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        select.form-control {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23333' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") no-repeat;
+            background-position: right 0.7em center;
+            background-size: 8px 10px;
+            padding-right: 1.5em;
+        }
+
+        input[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background-color: #333;
+            color: #fff;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 5px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #555;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 10px;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        input.form-control {
+            box-sizing: border-box;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        .container3 {
+            max-width: 500px;
+            margin: 30px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+            transition: all 2s ease-in-out;
+            opacity: 0;
+        }
+        .container4 {
+            max-width: 500px;
+            margin: 30px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+            transition: all 2s ease-in-out;
+            opacity: 0; /* set initial opacity to 0 */
+            position: absolute; /* absolute to make it appear in the center of the screen */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* to make it perfectly centered */
+        }
+    </style>
+    <script>
+        function printPage() {
+            window.print();
+        }
+        function moveContainerToLeft() {
+            var container2 = document.querySelector('.container2');
+            var container3 = document.querySelector('.container3');
+            var container4 = document.querySelector('.container4');
+
+            setTimeout(function() {
+                container2.style.opacity = "1";
+            }, 1200); /* adjust the delay as needed */
+
+            setTimeout(function() {
+                container3.style.opacity = "1";
+            }, 2400); /* adjust the delay as needed */
+
+            // After container2 and container3 are fully visible, animate them to shift left
+            setTimeout(function() {
+                container2.style.transform = "translateX(120%)";
+                container3.style.transform = "translateX(120%)";
+            }, 3600);
+
+            // After container2 and container3 have moved to left, show container4 at the center
+            setTimeout(function() {
+                container4.style.opacity = "1";
+            }, 4800); /* adjust the delay as needed */
+        }
+        /* Execute the function after the page loads */
+        window.onload = moveContainerToLeft;
+    </script>
+    
+</head>
+
+<body>
+    <div class="container-wrapper">
+        <div class="container">
+            <h1>압박 골절 예측 결과</h1>
+            <p>6개월 이내 발생 확률: {{ (period_probas[6] * 100) | round(2) }}%</p>
+            <p>1년 이내 발생 확률: {{ (period_probas[12] * 100) | round(2) }}%</p>
+            <p>2년 이내 발생 확률: {{ (period_probas[24] * 100) | round(2) }}%</p>
+            <p>4년 이내 발생 확률: {{ (period_probas[48] * 100) | round(2) }}%</p>
+            <!-- <p>발생 확률: {{ (occurrence_proba * 100) | round(2) }}%</p>
+            <p>발생 여부 (0 = 아니오, 1 = 예): {{ occurrence }}</p> -->
+            {% if remaining_period is not none %}
+            <p>예상되는 발생까지 남은 기간: {{ remaining_period[0] | round(2) }} 일</p>
+            {% else %}
+            <p>남은 발생 기간: 없음</p>
+            {% endif %}
+            <img src="{{ url_for('static', filename='Occurrence_Probability.png') }}" alt="Occurrence_Probability" />
+            <img src="{{ url_for('static', filename='Model_Evaluation_Metrics.png') }}" alt="Model Metrics" />
+            <a href="/" class="back-link">돌아가기</a>
+            <button onclick="printPage()" style="margin-left: 10px; padding: 10px; cursor: pointer;">결과 프린트</button>
+        </div>
+        <div class="container2">
+            <img src="{{ url_for('static', filename='age_Distribution.png') }}" alt="Age Distribution" />
+            <img src="{{ url_for('static', filename='BMI_Distribution.png') }}" alt="BMI Distribution" />
+            <img src="{{ url_for('static', filename='bone_density_level_Distribution.png') }}" alt="Bone Density Level Distribution" />
+
+        </div>
+        <div class="container3">
+            <img src="{{ url_for('static', filename='height_Distribution.png') }}" alt="Height Distribution" />
+            <img src="{{ url_for('static', filename='weight_Distribution.png') }}" alt="Weight Distribution" />
+        </div>
+        <div class="container4">
+            <h1>압박 골절 예측 정보</h1>
+            {% if remaining_period[0] < 365 %}
+            <p>압박골절이 1년 내로 발생할 위험이 있습니다 <br> 1개월마다 오늘 시행 한 인공지능 예측 재검사가 필요합니다.</p>
+            {% elif remaining_period[0] < 730 %}
+            <p>압박골절이 2년 내로 발생할 위험이 있습니다 <br> 3개월마다 오늘 시행 한 인공지능 예측 재검사가 필요합니다.</p>
+            {% else %}
+            <p>압박골절이 발생할 확률이 존재하는 환자로 <br> 6개월마다 오늘 시행 한 인공지능 예측 재검사가 필요합니다.</p>
+            {% endif %}
+        </div>
+    </div>
+    
+</body>
+
+</html>
+
